@@ -1,20 +1,22 @@
 action=$1
-name=$2
-region=$3
-github_token=$4
+aws_profile=$2
+name=$3
+region=$4
+github_token=$5
 #
 deploy(){
-#eksctl create cluster --name "${name}" --region "${region}"
-#
-#aws eks update-kubeconfig --name "${name}"
-#
-## create secret
-#kubectl create secret docker-registry regcred --docker-server=docker.pkg.github.com --docker-username=lauferism --docker-password ${github_token}
-#
-#helm repo add bitnami https://charts.bitnami.com/bitnami
-#helm install kafka bitnami/kafka
-#
-#helm install mongodb bitnami/mongodb
+AWS_PROFILE=${aws_profile} eksctl create cluster --name "${name}" --region "${region}" || exit 1
+
+AWS_PROFILE=${aws_profile} aws eks update-kubeconfig --name "${name}"
+
+# create secret
+kubectl create secret docker-registry regcred --docker-server=docker.pkg.github.com --docker-username=lauferism --docker-password ${github_token}
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install mongodb bitnami/mongodb
+
+helm install kafka bitnami/kafka
+
 
 MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
 
@@ -45,8 +47,9 @@ deploy_web_Server
 
 
 destroy(){
+        AWS_PROFILE=${aws_profile} aws eks update-kubeconfig --name "${name}"
 	helm uninstall mongodb kafka
-	eksctl delete cluster --name "${name}" --region "${region}"
+	AWS_PROFILE=${aws_profile} eksctl delete cluster --name "${name}" --region "${region}"
 
 }
 

@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import request
+from flask import Flask, render_template, request
 from json import dumps
 from kafka import KafkaProducer
 from datetime import datetime
@@ -15,6 +14,9 @@ producer = KafkaProducer(bootstrap_servers=['kafka-0.kafka-headless.default.svc.
                          value_serializer=lambda x: 
                          dumps(x).encode('utf-8'))
 
+@app.route("/")
+def index():
+    return render_template("home.html", message="Welcome");
 
 @app.route('/buy')
 def produce_buy_request():
