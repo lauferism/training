@@ -18,7 +18,7 @@ consumer = KafkaConsumer(
 # connecting to mongodb server
 client = MongoClient('mongodb.default.svc.cluster.local:27017',username='root',password=password)
 
-# setting the db and collection and write to numtest
+# setting the db and collection and write to test
 collection = client.test.test
 
 for message in consumer:
