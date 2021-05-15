@@ -6,7 +6,7 @@ The code then deploy web service and api service
 
 ## Getting Started
 
-To create the cluster run ./main deploy <aws profile> <cluster name> <region> <github token to read packages>
+To create the cluster run `./main deploy <aws profile> <cluster name> <region> <github token to read packages>`
 ### Prerequisites
 
 You need to have these installed:
