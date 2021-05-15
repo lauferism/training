@@ -20,3 +20,10 @@ You need to have these installed:
 To get the external loadbalancer address run
 
 `kubectl get svc web-server -o jsonpath='{.status.loadBalancer.ingress[-1].hostname}'`
+
+
+### Clean up ###
+
+To remove resources that were created run
+
+`./main deploy <aws profile> <cluster name> <region>`
