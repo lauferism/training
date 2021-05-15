@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      containers:
+        - name: simple
+          image: docker.pkg.github.com/lauferism/training/web_server:latest
+          ports:
+            - name: web
+              containerPort: 8080
+              protocol: TCP
+      imagePullSecrets:
+      - name: regcred

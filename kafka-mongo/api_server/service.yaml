@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: api-server
+  namespace: default
+  annotations:
+    service.beta.kubernetes.io/brightbox-load-balancer-healthcheck-request: /
+spec:
+  type: ClusterIP
+  selector:
+    app: api-server
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+

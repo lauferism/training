@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Welcome to buying screen</h1>
+
+<form action="/buy" method="get" target="_blank">
+  <label for="username">username:</label>
+  <input type="text" id="username" name="username"><br><br>
+  <label for="userid">userid:</label>
+  <input type="text" id="userid" name="userid"><br><br>
+  <label for="price">price:</label>
+  <input type="text" id="price" name="price"><br><br>
+  <input type="submit" value="buy">
+</form>
+
+
+<form action="/getAllUserBuys" method="get" target="_blank">
+  <label for="userid">userid:</label>
+  <input type="text" id="userid" name="userid"><br><br>
+  <input type="submit" value="getAllUserBuys">
+</form>
+
+<p>Click on the buy button to purchase or click on the getAllUserBuys to get all user purchase history</p>
+
+</body>
+</html>
