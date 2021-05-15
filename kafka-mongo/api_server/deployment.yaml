@@ -16,11 +16,17 @@ spec:
       containers:
         - name: api-server-container
           image: docker.pkg.github.com/lauferism/training/api_server_container:latest
+          env:
+          - name: MONGODB_ROOT_PASSWORD
+            value: <MONGODB_ROOT_PASSWORD>
           ports:
             - name: api
               containerPort: 8080
               protocol: TCP
         - name: kafka-consumer-container
           image: docker.pkg.github.com/lauferism/training/kafka_consumer_container:latest
+          env:
+          - name: MONGODB_ROOT_PASSWORD
+            value: <MONGODB_ROOT_PASSWORD>
       imagePullSecrets:
       - name: regcred

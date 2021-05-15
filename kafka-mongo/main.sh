@@ -20,6 +20,8 @@
 # # installing mongodb
 # helm install mongodb bitnami/mongodb
 
+MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace default mongodb -o jsonpath="{.data.mongodb-root-password}" | base64 --decode)
+
 git_top_level=$(git rev-parse --show-toplevel)
 
 declare -A locations
@@ -29,15 +31,34 @@ locations=(
     [web_server]='web_server'
     )
 
-for location in "${!locations[@]}"
-do
-    echo "deploying $location"
-    cd "${git_top_level}/kafka-mongo/${locations[$location]}"
-    docker build --tag ${location} .
-    docker tag ${location} docker.pkg.github.com/lauferism/training/${location}:latest
-    docker push docker.pkg.github.com/lauferism/training/${location}:latest
+deploy_api_server(){
+    cd ${git_top_level}/kafka-mongo/api_server/kafka_consumer_container
+    docker build --tag kafka_consumer .
+    docker tag kafka_consumer docker.pkg.github.com/lauferism/training/kafka_consumer:latest
+    docker push docker.pkg.github.com/lauferism/training/kafka_consumer:latest
+
+
+    cd ${git_top_level}/kafka-mongo/api_server/server_container
+    docker build --tag api_server_continaer .
+    docker tag api_server_continaer docker.pkg.github.com/lauferism/training/api_server_continaer:latest
+    docker push docker.pkg.github.com/lauferism/training/api_server_continaer:latest
+
+    cd ${git_top_level}/kafka-mongo/api_server
+
+    sed "s/<MONGODB_ROOT_PASSWORD>/${MONGODB_ROOT_PASSWORD}/g" deployment.yaml
 
     kubectl apply -f .
-done
 
+}
+
+deploy_web_Server(){
+    cd ${git_top_level}/kafka-mongo/web_server
+    docker build --tag web_server .
+    docker tag web_server docker.pkg.github.com/lauferism/training/web_server:latest
+    docker push docker.pkg.github.com/lauferism/training/web_server:latest
+
+    kubectl apply -f .
+
+
+}
 

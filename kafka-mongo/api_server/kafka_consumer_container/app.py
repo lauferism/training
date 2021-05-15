@@ -2,6 +2,8 @@ from kafka import KafkaConsumer
 from pymongo import MongoClient
 from json import loads
 import sys
+import os
+password = os.environ['MONGODB_ROOT_PASSWORD']
 
 consumer = KafkaConsumer(
     'test',
@@ -11,7 +13,7 @@ consumer = KafkaConsumer(
      group_id='my-group',
      value_deserializer=lambda x: loads(x.decode('utf-8')))
 
-client = MongoClient('mongodb.default.svc.cluster.local:27017',username='root',password='DHTo6Szt67')
+client = MongoClient('mongodb.default.svc.cluster.local:27017',username='root',password=password)
 collection = client.numtest.numtest
 
 for message in consumer:
