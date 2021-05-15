@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+        - name: api-server-container
+          image: docker.pkg.github.com/lauferism/training/api_server_container:latest
+          ports:
+            - name: api
+              containerPort: 8080
+              protocol: TCP
+        - name: kafka-consumer-container
+          image: docker.pkg.github.com/lauferism/training/kafka_consumer_container:latest
+      imagePullSecrets:
+      - name: regcred
