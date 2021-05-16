@@ -14,7 +14,7 @@ github_token=$5
 deploy(){
 	# creating simple eks cluster, behind the scence it creates vpc, subnets. internet gw and nat gw
 	echo -e "\n########## creating eks cluster named ${name} in ${region} region in ${aws_profile} account ##########\n"
-	AWS_PROFILE=${aws_profile} eksctl create cluster --name "${name}" --region "${region}" || exit 1
+	AWS_PROFILE=${aws_profile} eksctl create cluster --name "${name}" --region "${region}" --zones "${region}a,${region}b" || exit 1
 
 	echo -e "\n########## connecting to ${name} eks cluster ##########\n"
 	AWS_PROFILE=${aws_profile} aws eks update-kubeconfig --name "${name}"
