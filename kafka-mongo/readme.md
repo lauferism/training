@@ -22,6 +22,8 @@ To get the external loadbalancer address run
 
 `kubectl get svc web-server -o jsonpath='{.status.loadBalancer.ingress[-1].hostname}'`
 
+and paste the answer in the url to browse the application.
+
 
 ### Destroy ###
 
