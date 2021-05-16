@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from flask import Flask
+from flask import Flask, render_template, request
 import os
 
 app = Flask(__name__)
@@ -14,9 +14,6 @@ collection = client.test.test
 
 @app.route('/buyList')
 def produce_buy_request():
-    for x in collection.find():
-        # wasn't able to return the result of collection.find so i left it here.
-        # i would have query to find by userid that was sent by the web-server and return the records.
-        pass
-
-    return 'placeholder'
+    userid=request.args['userid']
+    cur=collection.find({'userid':userid})
+    return render_template('collections.html', cur=list(cur))

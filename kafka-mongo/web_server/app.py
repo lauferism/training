@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 import sys
 import requests
+from bs4 import BeautifulSoup
 
 
 # setting up flask. Used flask for the api endpoints
@@ -39,6 +40,7 @@ def getAllUserBuys():
     # getting userid from the form
     userid=request.args['userid']
     # sending a get request to api-server with userid as parameter
-    x = requests.get('http://api-server.default.svc.cluster.local/buyList',params={'userid':userid})
-    return x
-
+    print("userid is {}".format(userid),file=sys.stderr)
+    x= requests.get('http://api-server.default.svc.cluster.local/buyList',params={'userid':userid})
+    soup = BeautifulSoup(x.text, 'html.parser')
+    return str(soup)
