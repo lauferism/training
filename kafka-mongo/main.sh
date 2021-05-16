@@ -44,10 +44,12 @@ deploy(){
 	deploy_api_server(){
 	    cd ${git_top_level}/kafka-mongo/api_server
 	    # changing the deployment.yaml template and replacing the <MONGODB_ROOT_PASSWORD> placeholder with the real value
-	    sed -i -e "s/<MONGODB_ROOT_PASSWORD>/${MONGODB_ROOT_PASSWORD}/g" deployment.yaml
+
+	    cat deployment.yaml | sed "s/<MONGODB_ROOT_PASSWORD>/${MONGODB_ROOT_PASSWORD}/g" > /tmp/api_server_deployment.yaml
 
 	    echo -e "\n########## deploying api_server to cluster ##########\n"
-	    kubectl apply -f .
+	    kubectl apply -f service.yaml
+	    kubectl apply -f /tmp/api_server_deployment.yaml
 
 	}
 
