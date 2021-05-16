@@ -14,7 +14,7 @@ spec:
         app: web-server
     spec:
       containers:
-        - name: simple
+        - name: web-server-container
           image: docker.pkg.github.com/lauferism/training/web_server:latest
           ports:
             - name: web

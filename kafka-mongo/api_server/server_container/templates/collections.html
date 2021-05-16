@@ -1,0 +1,9 @@
+<ul>
+    {% for item in cur %}
+    <li>
+        <label>
+            <span>  username:  {{item.username}}  <br>  userid:  {{item.userid}}  <br>  price:  {{item.price}}  <br>  date:  {{item.timestamp}}  </span>
+        </label>
+    </li>
+    {% endfor %}
+</ul>

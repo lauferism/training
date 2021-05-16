@@ -31,8 +31,7 @@ def produce_buy_request():
     data = {'username':username,'userid':userid,'price':price,'timestamp': datetime.now().strftime("%d-%m-%Y (%H:%M:%S.%f)")}
     print("sending message to kafka",file=sys.stderr)
     producer.send('test', value=data)
-    print("message sent",file=sys.stderr)
-    return 'message sent'
+    return 'item was bought'
 
 
 @app.route('/getAllUserBuys')
